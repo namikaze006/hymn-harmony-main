@@ -15,7 +15,18 @@ export const useHymnHistory = () => {
 
     useEffect(() => {
         localStorage.setItem('hymn_history', JSON.stringify(history));
+        window.dispatchEvent(new CustomEvent('hymn-data-changed', { detail: { type: 'history', data: history } }));
     }, [history]);
+
+    useEffect(() => {
+        const handleExternalChange = (e: any) => {
+            if (e.detail.type === 'history') {
+                setHistory(e.detail.data);
+            }
+        };
+        window.addEventListener('hymn-data-changed', handleExternalChange);
+        return () => window.removeEventListener('hymn-data-changed', handleExternalChange);
+    }, []);
 
     const addHistoryEntry = (entry: Omit<HistoryEntry, 'timestamp'>) => {
         const today = new Date().toISOString().split('T')[0];
