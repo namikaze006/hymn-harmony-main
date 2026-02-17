@@ -1,6 +1,7 @@
-import { useState } from 'react';
-import { ArrowLeft, Heart, Minus, Plus, Sun } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Heart, ChevronLeft, Plus, Minus, User, Music } from 'lucide-react';
 import type { Himno } from '@/types/himno';
+import { useHymnHistory } from '@/hooks/useHymnHistory';
 import { useWakeLock } from '@/hooks/useWakeLock';
 
 interface HymnViewProps {
@@ -12,87 +13,120 @@ interface HymnViewProps {
 
 export default function HymnView({ himno, isFavorite, onToggleFavorite, onBack }: HymnViewProps) {
   const [fontSize, setFontSize] = useState(18);
-  const { isActive: wakeLockActive, toggle: toggleWakeLock } = useWakeLock();
+  const { addHistoryEntry } = useHymnHistory();
+  const { toggle } = useWakeLock();
 
-  const decreaseFontSize = () => setFontSize(s => Math.max(14, s - 2));
-  const increaseFontSize = () => setFontSize(s => Math.min(32, s + 2));
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      addHistoryEntry({
+        hymnNumber: himno.numero,
+        hymnTitle: himno.titulo,
+        action: 'sang'
+      });
+    }, 20000); // 20 seconds
+
+    return () => clearTimeout(timer);
+  }, [himno.numero]);
+
+  const handleToggleFavorite = () => {
+    onToggleFavorite(himno.numero);
+    if (!isFavorite) {
+      addHistoryEntry({
+        hymnNumber: himno.numero,
+        hymnTitle: himno.titulo,
+        action: 'favorite'
+      });
+    }
+  };
 
   return (
-    <div className="flex min-h-screen flex-col bg-background">
-      {/* Header */}
-      <header className="sticky top-0 z-40 bg-header-gradient rounded-b-[1.5rem]">
-        <div className="mx-auto flex max-w-lg items-center gap-3 px-4 py-3.5">
-          <button onClick={onBack} className="rounded-full bg-primary-foreground/15 p-2 transition-colors hover:bg-primary-foreground/25" aria-label="Volver">
-            <ArrowLeft size={20} className="text-primary-foreground" />
-          </button>
-          <div className="min-w-0 flex-1">
-            <p className="text-xs font-bold text-primary-foreground/70 font-ui">Himno {himno.numero}</p>
-            <h1 className="truncate font-ui text-base font-extrabold text-primary-foreground">{himno.titulo}</h1>
-          </div>
-          <button
-            onClick={() => onToggleFavorite(himno.numero)}
-            className="rounded-full bg-primary-foreground/15 p-2 transition-colors hover:bg-primary-foreground/25"
-            aria-label={isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}
-          >
-            <Heart size={20} className={isFavorite ? 'fill-current text-red-300' : 'text-primary-foreground/80'} />
-          </button>
-        </div>
-      </header>
+    <div className="flex flex-col min-h-screen bg-background">
+      {/* Dynamic Header */}
+      <div className="bg-header-gradient px-6 pb-12 rounded-b-[3.5rem] safe-top relative overflow-hidden shrink-0">
+        {/* Abstract background circles */}
+        <div className="absolute top-[-20%] right-[-10%] w-48 h-48 bg-white/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-[-10%] left-[-5%] w-32 h-32 bg-accent/20 rounded-full blur-2xl" />
 
-      {/* Content */}
-      <main className="flex-1 overflow-y-auto px-6 py-8 scrollbar-thin">
-        <div className="mx-auto max-w-lg space-y-7">
-          {himno.estrofas.map((estrofa, i) => (
-            <div key={i}>
-              {i > 0 && (
-                <div className="mx-auto mb-6 flex items-center gap-3">
-                  <div className="h-px flex-1 border-verse border-t" />
-                  <span className="text-xs font-bold text-muted-foreground/50 font-ui">{i + 1}</span>
-                  <div className="h-px flex-1 border-verse border-t" />
+        <div className="relative z-10 flex items-center justify-between pt-2 mb-8">
+          <button
+            onClick={onBack}
+            className="rounded-2xl bg-white/15 p-3 text-primary-foreground backdrop-blur-md transition-all hover:bg-white/20 border border-white/10"
+          >
+            <ChevronLeft size={24} />
+          </button>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setFontSize(prev => Math.min(prev + 2, 40))}
+              className="rounded-2xl bg-white/15 p-3 text-primary-foreground backdrop-blur-md transition-all hover:bg-white/20 border border-white/10"
+            >
+              <Plus size={20} />
+            </button>
+            <button
+              onClick={() => setFontSize(prev => Math.max(prev - 2, 12))}
+              className="rounded-2xl bg-white/15 p-3 text-primary-foreground backdrop-blur-md transition-all hover:bg-white/20 border border-white/10"
+            >
+              <Minus size={20} />
+            </button>
+            <button
+              onClick={handleToggleFavorite}
+              className={`rounded-2xl p-3 backdrop-blur-md transition-all border border-white/10 ${isFavorite ? 'bg-favorite-active text-white border-favorite-active shadow-lg shadow-favorite-active/40' : 'bg-white/15 text-primary-foreground hover:bg-white/20'}`}
+            >
+              <Heart size={24} className={isFavorite ? 'fill-current' : ''} />
+            </button>
+          </div>
+        </div>
+
+        <div className="relative z-10">
+          <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary-foreground/50 font-ui">
+            Himno {himno.numero}
+          </span>
+          <h1 className="font-ui text-3xl font-black text-primary-foreground mt-2 leading-tight tracking-tight">
+            {himno.titulo}
+          </h1>
+        </div>
+      </div>
+
+      {/* Lyrics Content */}
+      <div className="flex-1 overflow-y-auto px-8 pt-10 pb-32 scrollbar-thin">
+        <div className="space-y-10">
+          {himno.estrofas.map((estrofa, index) => {
+            return (
+              <div key={index} className="relative">
+                <div
+                  className="whitespace-pre-line font-hymn leading-relaxed text-hymn font-medium"
+                  style={{ fontSize: `${fontSize}px`, lineHeight: 1.7 }}
+                >
+                  {estrofa.split('\n').map((line, i) => (
+                    <span key={i} className="block">
+                      {line.includes('**CORO**') ? (
+                        <>
+                          {line.split('**CORO**').map((part, j, arr) => (
+                            <span key={j}>
+                              {part}
+                              {j < arr.length - 1 && (
+                                <span className="inline-block font-black text-primary uppercase tracking-wider" style={{ fontSize: '1.1em' }}>
+                                  CORO
+                                </span>
+                              )}
+                            </span>
+                          ))}
+                        </>
+                      ) : (
+                        line
+                      )}
+                    </span>
+                  ))}
                 </div>
-              )}
-              <p
-                className="whitespace-pre-line font-hymn leading-relaxed text-hymn"
-                style={{ fontSize: `${fontSize}px`, lineHeight: 1.8 }}
-              >
-                {estrofa}
-              </p>
-            </div>
-          ))}
+              </div>
+            );
+          })}
         </div>
-      </main>
 
-      {/* Font size controls */}
-      <div className="sticky bottom-0 bg-card/95 backdrop-blur-lg safe-bottom">
-        <div className="mx-auto flex max-w-lg items-center justify-between px-5 py-3">
-          <div className="flex items-center gap-1">
-            <button onClick={decreaseFontSize} className="rounded-full p-2.5 transition-colors hover:bg-muted" aria-label="Reducir tamaño">
-              <Minus size={16} className="text-foreground" />
-            </button>
-            <span className="w-10 text-center text-xs font-bold text-muted-foreground font-ui">{fontSize}</span>
-            <button onClick={increaseFontSize} className="rounded-full p-2.5 transition-colors hover:bg-muted" aria-label="Aumentar tamaño">
-              <Plus size={16} className="text-foreground" />
-            </button>
-          </div>
-
-          <input
-            type="range"
-            min={14}
-            max={32}
-            step={1}
-            value={fontSize}
-            onChange={(e) => setFontSize(Number(e.target.value))}
-            className="mx-4 h-1.5 flex-1 cursor-pointer appearance-none rounded-full bg-muted accent-primary"
-          />
-
-          <button
-            onClick={toggleWakeLock}
-            className={`rounded-full p-2.5 transition-all ${wakeLockActive ? 'bg-primary/15 text-primary' : 'text-muted-foreground hover:bg-muted'}`}
-            aria-label="Modo lectura"
-            title="Mantener pantalla encendida"
-          >
-            <Sun size={16} />
-          </button>
+        <div className="mt-20 text-center mb-10">
+          <div className="h-1.5 w-12 bg-primary/20 rounded-full mx-auto" />
+          <p className="mt-6 text-[10px] font-black uppercase tracking-widest text-muted-foreground/30 font-ui">
+            Amén
+          </p>
         </div>
       </div>
     </div>

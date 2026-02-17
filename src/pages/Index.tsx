@@ -7,12 +7,15 @@ import TabBar from '@/components/TabBar';
 import SearchPanel from '@/components/SearchPanel';
 import HymnIndex from '@/components/HymnIndex';
 import FavoritesPanel from '@/components/FavoritesPanel';
+import ProfilePanel from '@/components/ProfilePanel';
+import HistoryPanel from '@/components/HistoryPanel';
 import HymnView from '@/components/HymnView';
 
 const himnos: Himno[] = himnarioData as Himno[];
 
 const Index = () => {
-  const [activeTab, setActiveTab] = useState<'search' | 'index' | 'favorites'>('search');
+  const [activeTab, setActiveTab] = useState<'search' | 'index' | 'profile'>('search');
+  const [profileSubView, setProfileSubView] = useState<'menu' | 'favorites' | 'history'>('menu');
   const [selectedHymn, setSelectedHymn] = useState<Himno | null>(null);
   const { favorites, toggleFavorite, isFavorite } = useFavorites();
   const { theme, toggleTheme } = useTheme();
@@ -48,16 +51,32 @@ const Index = () => {
           onSelectHymn={setSelectedHymn}
         />
       )}
-      {activeTab === 'favorites' && (
+      {activeTab === 'profile' && profileSubView === 'menu' && (
+        <ProfilePanel
+          onViewFavorites={() => setProfileSubView('favorites')}
+          onViewHistory={() => setProfileSubView('history')}
+        />
+      )}
+      {activeTab === 'profile' && profileSubView === 'favorites' && (
         <FavoritesPanel
           himnos={himnos}
           favorites={favorites}
           isFavorite={isFavorite}
           onToggleFavorite={toggleFavorite}
           onSelectHymn={setSelectedHymn}
+          onBack={() => setProfileSubView('menu')}
         />
       )}
-      <TabBar activeTab={activeTab} onTabChange={setActiveTab} />
+      {activeTab === 'profile' && profileSubView === 'history' && (
+        <HistoryPanel onBack={() => setProfileSubView('menu')} />
+      )}
+      <TabBar
+        activeTab={activeTab}
+        onTabChange={(tab) => {
+          setActiveTab(tab);
+          if (tab !== 'profile') setProfileSubView('menu');
+        }}
+      />
     </div>
   );
 };

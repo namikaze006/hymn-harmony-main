@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,95 +6,86 @@
 
 @layer base {
   :root {
-    --background: 140 20% 97%;
-    --foreground: 200 25% 15%;
+    --background: 240 33% 98%;
+    --foreground: 240 10% 10%;
 
     --card: 0 0% 100%;
-    --card-foreground: 200 25% 15%;
+    --card-foreground: 240 10% 10%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 200 25% 15%;
+    --popover-foreground: 240 10% 10%;
 
-    --primary: 162 48% 42%;
+    --primary: 245 58% 51%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 160 20% 93%;
-    --secondary-foreground: 200 25% 20%;
+    --secondary: 245 40% 96%;
+    --secondary-foreground: 245 50% 25%;
 
-    --muted: 160 12% 93%;
-    --muted-foreground: 200 12% 50%;
+    --muted: 240 10% 94%;
+    --muted-foreground: 240 5% 45%;
 
-    --accent: 36 80% 55%;
+    --accent: 180 100% 45%;
     --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 72% 51%;
-    --destructive-foreground: 0 0% 100%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
 
-    --border: 160 15% 90%;
-    --input: 160 15% 90%;
-    --ring: 162 48% 42%;
+    --border: 240 10% 90%;
+    --input: 240 10% 90%;
+    --ring: 245 58% 51%;
 
-    --radius: 1rem;
+    --radius: 1.5rem;
 
-    --sidebar-background: 162 48% 42%;
-    --sidebar-foreground: 0 0% 100%;
-    --sidebar-primary: 36 80% 55%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 162 40% 35%;
-    --sidebar-accent-foreground: 0 0% 100%;
-    --sidebar-border: 162 35% 50%;
-    --sidebar-ring: 36 80% 55%;
-
-    /* Custom tokens */
-    --hymn-text: 200 20% 25%;
-    --hymn-number: 162 48% 38%;
-    --tab-active: 162 48% 42%;
-    --tab-inactive: 200 10% 60%;
-    --search-bg: 160 15% 95%;
-    --verse-divider: 162 30% 80%;
-    --favorite-active: 0 72% 55%;
-    --header-gradient-from: 162 48% 42%;
-    --header-gradient-to: 162 35% 30%;
+    /* Custom tokens based on reference image */
+    --hymn-text: 245 20% 25%;
+    --hymn-number: 245 58% 45%;
+    --tab-active: 245 58% 51%;
+    --tab-inactive: 240 10% 70%;
+    --search-bg: 245 30% 95%;
+    --verse-divider: 245 20% 90%;
+    --favorite-active: 350 100% 64%;
+    --header-gradient-from: 245 60% 55%;
+    --header-gradient-to: 255 70% 45%;
   }
 
   .dark {
-    --background: 200 25% 8%;
-    --foreground: 160 15% 92%;
+    --background: 245 50% 10%;
+    --foreground: 240 10% 96%;
 
-    --card: 200 22% 12%;
-    --card-foreground: 160 15% 92%;
+    --card: 245 45% 15%;
+    --card-foreground: 240 10% 96%;
 
-    --popover: 200 22% 12%;
-    --popover-foreground: 160 15% 92%;
+    --popover: 245 45% 15%;
+    --popover-foreground: 240 10% 96%;
 
-    --primary: 162 48% 45%;
+    --primary: 245 60% 60%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 200 20% 16%;
-    --secondary-foreground: 160 15% 90%;
+    --secondary: 245 35% 20%;
+    --secondary-foreground: 245 20% 94%;
 
-    --muted: 200 18% 15%;
-    --muted-foreground: 200 12% 55%;
+    --muted: 245 40% 18%;
+    --muted-foreground: 245 10% 65%;
 
-    --accent: 36 80% 55%;
+    --accent: 180 100% 45%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 200 18% 18%;
-    --input: 200 18% 18%;
-    --ring: 162 48% 45%;
+    --border: 245 40% 22%;
+    --input: 245 40% 22%;
+    --ring: 245 60% 60%;
 
-    --hymn-text: 160 10% 82%;
-    --hymn-number: 162 48% 55%;
-    --tab-active: 162 48% 50%;
-    --tab-inactive: 200 10% 50%;
-    --search-bg: 200 20% 13%;
-    --verse-divider: 162 30% 30%;
-    --favorite-active: 0 72% 55%;
-    --header-gradient-from: 162 40% 28%;
-    --header-gradient-to: 200 30% 12%;
+    --hymn-text: 240 10% 88%;
+    --hymn-number: 245 60% 75%;
+    --tab-active: 245 60% 65%;
+    --tab-inactive: 245 15% 50%;
+    --search-bg: 245 40% 12%;
+    --verse-divider: 245 30% 25%;
+    --favorite-active: 350 100% 64%;
+    --header-gradient-from: 245 55% 22%;
+    --header-gradient-to: 255 60% 15%;
   }
 }
 
@@ -105,7 +96,7 @@
 
   body {
     @apply bg-background text-foreground font-sans;
-    font-family: 'Nunito', system-ui, sans-serif;
+    font-family: 'Inter', system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -113,11 +104,15 @@
 
 @layer utilities {
   .font-hymn {
-    font-family: 'Lora', Georgia, 'Times New Roman', serif;
+    font-family: 'Outfit', system-ui, sans-serif;
   }
 
   .font-ui {
-    font-family: 'Nunito', system-ui, sans-serif;
+    font-family: 'Outfit', system-ui, sans-serif;
+  }
+
+  .font-body {
+    font-family: 'Inter', system-ui, sans-serif;
   }
 
   .scrollbar-thin {
@@ -167,20 +162,45 @@
   }
 
   .bg-header-gradient {
-    background: linear-gradient(135deg, hsl(var(--header-gradient-from)), hsl(var(--header-gradient-to)));
+    background: linear-gradient(165deg, hsl(var(--header-gradient-from)), hsl(var(--header-gradient-to)));
+    background-size: 200% 200%;
+    animation: gradientShift 8s ease infinite;
   }
 
-  /* Safe area padding for mobile */
+  @keyframes gradientShift {
+    0% {
+      background-position: 0% 50%;
+    }
+
+    50% {
+      background-position: 100% 50%;
+    }
+
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  /* Safe area padding for mobile (Status Bar) */
+  .safe-top {
+    padding-top: max(env(safe-area-inset-top, 0px), 1.5rem);
+  }
+
+  /* Safe area padding for mobile (Navigation Bar) */
   .safe-bottom {
-    padding-bottom: max(env(safe-area-inset-bottom, 0px), 0.5rem);
+    padding-bottom: max(env(safe-area-inset-bottom, 0px), 1rem);
   }
 
-  /* Card shadow */
+  /* Card shadow - Modernized */
   .card-shadow {
-    box-shadow: 0 2px 12px -2px hsl(var(--foreground) / 0.06), 0 1px 4px -1px hsl(var(--foreground) / 0.04);
+    box-shadow: 0 10px 30px -10px hsl(var(--primary) / 0.15), 0 4px 10px -5px hsl(var(--primary) / 0.1);
   }
 
   .card-shadow-lg {
-    box-shadow: 0 8px 30px -6px hsl(var(--foreground) / 0.1), 0 2px 8px -2px hsl(var(--foreground) / 0.06);
+    box-shadow: 0 20px 40px -12px hsl(var(--primary) / 0.25);
+  }
+
+  .glass-card {
+    @apply bg-card/70 backdrop-blur-xl border border-white/20 dark:border-white/5;
   }
 }
