@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Himnario Bautista</string>
+    <string name="title_activity_main">Himnario Bautista</string>
+    <string name="package_name">com.himnario.bautista</string>
+    <string name="custom_url_scheme">com.himnario.bautista</string>
+</resources>
