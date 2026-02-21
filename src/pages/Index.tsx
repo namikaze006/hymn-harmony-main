@@ -12,7 +12,6 @@ import HistoryPanel from '@/components/HistoryPanel';
 import CollectionsPanel from '@/components/CollectionsPanel';
 import CollectionDetailPanel from '@/components/CollectionDetailPanel';
 import HymnView from '@/components/HymnView';
-import { SyncManager } from '@/components/SyncManager';
 
 import { useWakeLock } from '@/hooks/useWakeLock';
 import { useCollections, Collection } from '@/hooks/useCollections';
@@ -34,76 +33,84 @@ const Index = () => {
 
   if (selectedHymn) {
     return (
-      <HymnView
-        himno={selectedHymn}
-        isFavorite={isFavorite(selectedHymn.numero)}
-        onToggleFavorite={toggleFavorite}
-        onBack={() => setSelectedHymn(null)}
-      />
+      <div className="fixed inset-0 z-50 overflow-y-auto bg-background">
+        <HymnView
+          himno={selectedHymn}
+          isFavorite={isFavorite(selectedHymn.numero)}
+          onToggleFavorite={toggleFavorite}
+          onBack={() => setSelectedHymn(null)}
+        />
+      </div>
     );
   }
 
   return (
     <div className="mx-auto min-h-screen max-w-lg bg-background">
-      <SyncManager />
-      {activeTab === 'search' && (
-        <SearchPanel
-          himnos={himnos}
-          isFavorite={isFavorite}
-          onToggleFavorite={toggleFavorite}
-          onSelectHymn={setSelectedHymn}
-          theme={theme}
-          onToggleTheme={toggleTheme}
-        />
-      )}
-      {activeTab === 'index' && (
-        <HymnIndex
-          himnos={himnos}
-          isFavorite={isFavorite}
-          onToggleFavorite={toggleFavorite}
-          onSelectHymn={setSelectedHymn}
-        />
-      )}
-      {activeTab === 'profile' && profileSubView === 'menu' && (
-        <ProfilePanel
-          onViewFavorites={() => setProfileSubView('favorites')}
-          onViewHistory={() => setProfileSubView('history')}
-          onViewCollections={() => setProfileSubView('collections')}
-        />
-      )}
-      {activeTab === 'profile' && profileSubView === 'favorites' && (
-        <FavoritesPanel
-          himnos={himnos}
-          favorites={favorites}
-          isFavorite={isFavorite}
-          onToggleFavorite={toggleFavorite}
-          onSelectHymn={setSelectedHymn}
-          onBack={() => setProfileSubView('menu')}
-        />
-      )}
-      {activeTab === 'profile' && profileSubView === 'history' && (
-        <HistoryPanel onBack={() => setProfileSubView('menu')} />
-      )}
-      {activeTab === 'profile' && profileSubView === 'collections' && (
-        <CollectionsPanel
-          onBack={() => setProfileSubView('menu')}
-          onSelectCollection={(c) => {
-            setActiveCollection(c);
-            setProfileSubView('collection-detail');
-          }}
-        />
-      )}
-      {activeTab === 'profile' && profileSubView === 'collection-detail' && activeCollection && (
-        <CollectionDetailPanel
-          collection={activeCollection}
-          himnos={himnos}
-          isFavorite={isFavorite}
-          onToggleFavorite={toggleFavorite}
-          onSelectHymn={setSelectedHymn}
-          onBack={() => setProfileSubView('collections')}
-          onRemoveFromCollection={removeFromCollection}
-        />
-      )}
+      <main className="pb-24">
+        {activeTab === 'search' && (
+          <SearchPanel
+            himnos={himnos}
+            isFavorite={isFavorite}
+            onToggleFavorite={toggleFavorite}
+            onSelectHymn={setSelectedHymn}
+            theme={theme}
+            onToggleTheme={toggleTheme}
+          />
+        )}
+        {activeTab === 'index' && (
+          <HymnIndex
+            himnos={himnos}
+            isFavorite={isFavorite}
+            onToggleFavorite={toggleFavorite}
+            onSelectHymn={setSelectedHymn}
+          />
+        )}
+        {activeTab === 'profile' && profileSubView === 'menu' && (
+          <ProfilePanel
+            onViewFavorites={() => setProfileSubView('favorites')}
+            onViewHistory={() => setProfileSubView('history')}
+            onViewCollections={() => setProfileSubView('collections')}
+          />
+        )}
+        {activeTab === 'profile' && profileSubView === 'favorites' && (
+          <FavoritesPanel
+            himnos={himnos}
+            favorites={favorites}
+            isFavorite={isFavorite}
+            onToggleFavorite={toggleFavorite}
+            onSelectHymn={setSelectedHymn}
+            onBack={() => setProfileSubView('menu')}
+          />
+        )}
+        {activeTab === 'profile' && profileSubView === 'history' && (
+          <HistoryPanel
+            himnos={himnos}
+            onSelectHymn={setSelectedHymn}
+            onBack={() => setProfileSubView('menu')}
+          />
+        )}
+        {activeTab === 'profile' && profileSubView === 'collections' && (
+          <CollectionsPanel
+            onBack={() => setProfileSubView('menu')}
+            onSelectCollection={(c) => {
+              setActiveCollection(c);
+              setProfileSubView('collection-detail');
+            }}
+          />
+        )}
+        {activeTab === 'profile' && profileSubView === 'collection-detail' && activeCollection && (
+          <CollectionDetailPanel
+            collection={activeCollection}
+            himnos={himnos}
+            isFavorite={isFavorite}
+            onToggleFavorite={toggleFavorite}
+            onSelectHymn={setSelectedHymn}
+            onBack={() => setProfileSubView('collections')}
+            onRemoveFromCollection={removeFromCollection}
+          />
+        )}
+      </main>
+
       <TabBar
         activeTab={activeTab}
         onTabChange={(tab) => {

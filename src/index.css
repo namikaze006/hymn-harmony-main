@@ -163,22 +163,6 @@
 
   .bg-header-gradient {
     background: linear-gradient(165deg, hsl(var(--header-gradient-from)), hsl(var(--header-gradient-to)));
-    background-size: 200% 200%;
-    animation: gradientShift 8s ease infinite;
-  }
-
-  @keyframes gradientShift {
-    0% {
-      background-position: 0% 50%;
-    }
-
-    50% {
-      background-position: 100% 50%;
-    }
-
-    100% {
-      background-position: 0% 50%;
-    }
   }
 
   /* Safe area padding for mobile (Status Bar) */
@@ -189,18 +173,5 @@
   /* Safe area padding for mobile (Navigation Bar) */
   .safe-bottom {
     padding-bottom: max(env(safe-area-inset-bottom, 0px), 1rem);
-  }
-
-  /* Card shadow - Modernized */
-  .card-shadow {
-    box-shadow: 0 10px 30px -10px hsl(var(--primary) / 0.15), 0 4px 10px -5px hsl(var(--primary) / 0.1);
-  }
-
-  .card-shadow-lg {
-    box-shadow: 0 20px 40px -12px hsl(var(--primary) / 0.25);
-  }
-
-  .glass-card {
-    @apply bg-card/70 backdrop-blur-xl border border-white/20 dark:border-white/5;
   }
 }

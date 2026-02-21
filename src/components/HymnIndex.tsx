@@ -25,9 +25,10 @@ export default function HymnIndex({ himnos, isFavorite, onToggleFavorite, onSele
           <p className="mt-1 text-sm font-medium text-primary-foreground/70 font-ui">{himnos.length} canciones disponibles</p>
         </div>
       </div>
+
       <div className="flex-1 overflow-y-auto px-6 pt-6 pb-28 scrollbar-thin">
         <div className="space-y-3">
-          {sorted.map(h => (
+          {sorted.map((h) => (
             <HymnCard
               key={h.numero}
               himno={h}

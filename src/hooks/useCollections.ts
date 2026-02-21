@@ -14,18 +14,7 @@ export const useCollections = () => {
 
     useEffect(() => {
         localStorage.setItem('hymn_collections', JSON.stringify(collections));
-        window.dispatchEvent(new CustomEvent('hymn-data-changed', { detail: { type: 'collections', data: collections } }));
     }, [collections]);
-
-    useEffect(() => {
-        const handleExternalChange = (e: any) => {
-            if (e.detail.type === 'collections') {
-                setCollections(e.detail.data);
-            }
-        };
-        window.addEventListener('hymn-data-changed', handleExternalChange);
-        return () => window.removeEventListener('hymn-data-changed', handleExternalChange);
-    }, []);
 
     const createCollection = (name: string) => {
         const newCollection: Collection = {
